@@ -16,8 +16,8 @@ export class DriverController {
 
     @UseGuards(JwtAuthGuard)
     @Get(':id')
-    async getdriver(@Param('id', ParseIntPipe) driver_code: number) {
-      return this.driverService.find_driver(driver_code);
+    async getdriver(@Param('id', ParseIntPipe) dni: string) {
+      return this.driverService.find_driver(dni);
     }
 
     @UseGuards(JwtAuthGuard)
@@ -28,7 +28,7 @@ export class DriverController {
 
   @UseGuards(JwtAuthGuard)
     @Delete(':id')
-    deletedriverById(@Param('id', ParseIntPipe) driver_code : number){ 
-    return this.driverService.delete_driver(driver_code);
+    deletedriverById(@Param('id', ParseIntPipe) dni: string){ 
+    return this.driverService.delete_driver(dni);
   }
   }

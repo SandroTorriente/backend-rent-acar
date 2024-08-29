@@ -8,7 +8,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt.guard';
 export class RoleController {
     constructor (private roleService: RoleService) {}
 
-    @UseGuards(JwtAuthGuard)
+    /*@UseGuards(JwtAuthGuard)*/
     @Get()
     async getRoles() {
       return this.roleService.find_roles();
@@ -20,7 +20,7 @@ export class RoleController {
       return this.roleService.find_role(role_code);
     }
  
-    @UseGuards(JwtAuthGuard)
+    /*@UseGuards(JwtAuthGuard)*/
     @Post()
     createRole(@Body(new RolePipe()) data : CreateRoleDto){  
     return this.roleService.create_role(data);
