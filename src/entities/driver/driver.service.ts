@@ -28,6 +28,7 @@ export class DriverService {
         aviable: data.aviable,
         category_code: data.category_code,
         dni: data.dni
+        
       },
     });
   }
@@ -36,11 +37,11 @@ export class DriverService {
     return this.prisma.driver.findMany();
   }
 
-  async find_driver(driver_code: number): Promise<Driver> {
-    return this.prisma.driver.findUnique({ where: { driver_code } });
-  }
+  async find_driver(dni: string): Promise<Driver> {
+    return this.prisma.driver.findUnique({ where: { dni } });
+}
 
-  async delete_driver(driver_code: number): Promise<Driver> {
-    return this.prisma.driver.delete({ where: { driver_code } });
+  async delete_driver(dni: string): Promise<Driver> {
+    return this.prisma.driver.delete({ where: { dni } });
   }
 }
