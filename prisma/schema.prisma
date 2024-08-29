@@ -1,0 +1,149 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Role {
+  role_code Int @id @default(autoincrement())
+  role_name String @unique
+
+  User User[]
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  username String @unique
+  password String
+  email String
+  role_code Int
+  role Role @relation(fields: [role_code], references: [role_code], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Brand {
+  brand_code Int @id @default(autoincrement())
+  brand_name String @unique
+
+  Model Model[]
+
+  Car Car[]
+}
+
+model Car_Situation {
+  situation_code Int @id @default(autoincrement())
+  situation_name String @unique
+
+  Car Car[]
+}
+
+model Category {
+  category_code Int @id @default(autoincrement())
+  category_name String @unique
+
+  Driver Driver[]
+}
+
+model Country {
+  country_code Int @id @default(autoincrement())
+  country_name String @unique
+
+  Tourist Tourist[]
+}
+
+model Driver {
+  driver_code Int @id @default(autoincrement())
+  driver_name String
+  driver_lastname String
+  address String
+  age Int
+  aviable String
+  
+  category_code Int
+  category Category @relation(fields: [category_code], references: [category_code], onDelete: Cascade, onUpdate: Cascade)
+
+  Contract Contract[]
+}
+
+model Model {
+  model_code Int @id @default(autoincrement())
+  model_name String @unique
+
+  brand_code Int
+  brand Brand @relation(fields: [brand_code], references: [brand_code], onDelete: Cascade, onUpdate: Cascade)
+
+  Car Car[]
+}
+ 
+ model PaymentWay {
+  payment_code Int @id @default(autoincrement())
+  payment_method String @unique
+ 
+  Contract Contract[]
+}
+
+ model Tourist {
+  passport String @id @unique
+  tourist_name String
+  tourist_lastname String
+  age Int
+  sex String
+  contact String
+
+  country_code Int
+  country Country @relation(fields: [country_code], references: [country_code], onDelete: Cascade, onUpdate: Cascade)
+ 
+  Contract Contract[]
+}
+
+ model Car {
+  licenseplate String @id @unique
+  
+  model_code Int
+  model Model @relation(fields: [model_code], references: [model_code], onDelete: Cascade, onUpdate: Cascade)
+
+  brand_code Int
+  brand Brand @relation(fields: [brand_code], references: [brand_code], onDelete: Cascade, onUpdate: Cascade)
+
+  situation_code Int
+  situation Car_Situation @relation(fields: [situation_code], references: [situation_code], onDelete: Cascade, onUpdate: Cascade)
+
+  rental_price Int
+  extension_price Int
+  color String
+
+ 
+  Contract Contract[]
+}
+
+ model Contract {
+  start_date DateTime @id @unique
+  end_date DateTime
+
+  passport String 
+  tourist Tourist @relation(fields: [passport], references: [passport], onDelete: Cascade, onUpdate: Cascade)
+
+  licenseplate String 
+  car Car @relation(fields: [licenseplate], references: [licenseplate], onDelete: Cascade, onUpdate: Cascade)
+
+
+  payment_code Int
+  payentway PaymentWay @relation(fields: [payment_code], references: [payment_code], onDelete: Cascade, onUpdate: Cascade)
+
+  driver_code Int
+  driver Driver @relation(fields: [driver_code], references: [driver_code], onDelete: Cascade, onUpdate: Cascade)
+
+  extension_days Int
+  first_amount Int
+  final_amount Int
+  active String
+  tarifa Int
+ }
