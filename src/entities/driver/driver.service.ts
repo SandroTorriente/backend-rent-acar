@@ -27,6 +27,7 @@ export class DriverService {
         age: data.age,
         aviable: data.aviable,
         category_code: data.category_code,
+        dni: data.dni
       },
     });
   }

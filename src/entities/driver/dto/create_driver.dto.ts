@@ -4,5 +4,6 @@ export interface CreateDriverDto {
     address: string,
     age: number,
     aviable: string,
-    category_code: number
+    category_code: number,
+    dni: string
 }
